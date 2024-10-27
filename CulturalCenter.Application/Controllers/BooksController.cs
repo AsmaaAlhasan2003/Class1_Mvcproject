@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -57,24 +58,22 @@ namespace CulturalCenter.Application.Controllers
             {
                 try
                 {
-                    // التحقق من وجود الملف ورفع الملف
+         
                     if (file != null && file.Length > 0)
                     {
-                        // تعيين مسار حفظ الملف في مجلد wwwroot/BooksFiles
+            
                         var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "BooksFiles");
-                        Directory.CreateDirectory(uploadsFolder);
+                        Directory.CreateDirectory(uploadsFolder); 
 
-                        // اسم الملف النهائي
-                        var filePath = Path.Combine(uploadsFolder, file.FileName);
+                        var uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+                        var filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
-                        // نسخ الملف إلى المسار
                         using (var stream = new FileStream(filePath, FileMode.Create))
                         {
                             await file.CopyToAsync(stream);
                         }
 
-                        // تعيين مسار الملف في قاعدة البيانات
-                        book.FilePath = Path.Combine("BooksFiles", file.FileName);
+                        book.FilePath = Path.Combine("BooksFiles", uniqueFileName);
                     }
 
                     await _bookRepository.AddAsync(book);
@@ -89,7 +88,6 @@ namespace CulturalCenter.Application.Controllers
                 }
             }
 
-            // إذا حدث خطأ، إعادة البيانات إلى الـ View
             var authors = await _authorRepository.GetAllAsync();
             ViewBag.Authors = new SelectList(authors, "AuthorId", "Name");
 
@@ -98,7 +96,6 @@ namespace CulturalCenter.Application.Controllers
 
             return View(book);
         }
-
 
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
@@ -152,6 +149,5 @@ namespace CulturalCenter.Application.Controllers
 
             return View("Index", books.ToList());
         }
-
     }
 }

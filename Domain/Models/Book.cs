@@ -8,7 +8,7 @@ namespace Domain.Models
     public class Book
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; } 
        public int? AuthorId {  get; set; }
         public Author? Author { get; set; }
         public string Type { get; set; }
@@ -24,7 +24,7 @@ namespace Domain.Models
         // قائمة الاستعارات للكتاب
          public List<Loan>? Loans { get; set; } = new List<Loan>();
         [NotMapped]
-        public string FilePath { get; set; }
+        public string? FilePath { get; set; }
         
     }
 }

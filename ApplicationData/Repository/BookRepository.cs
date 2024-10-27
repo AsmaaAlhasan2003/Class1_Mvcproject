@@ -34,11 +34,12 @@ namespace ApplicationData.Repositories
                 .FirstOrDefaultAsync(b => b.Id == bookId);
         }
 
-        public async Task AddAsync(Book book)
+        public async Task<Book> AddAsync(Book book)
         {
             
             await _context.Books.AddAsync(book);
-            SaveChangesAsync(); 
+            SaveChangesAsync();
+            return book;
         }
 
         
@@ -104,12 +105,7 @@ namespace ApplicationData.Repositories
             return $"الكتاب موجود: {book.Name}";
         }
 
-        
-
-        Task<Book> IRepository<Book>.AddAsync(Book entity)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         public async Task SaveChangesAsync()
         {

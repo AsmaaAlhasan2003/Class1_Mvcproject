@@ -13,15 +13,15 @@ namespace ApplicationData
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Visitor> Visitors { get; set; }
-         public MnagementBdContext(DbContextOptions<MnagementBdContext> options) : base(options)
-           {
-           }
-       /* protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public MnagementBdContext(DbContextOptions<MnagementBdContext> options) : base(options)
         {
-            var connectionString = "Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = CulturalCnterDB ";
-            optionsBuilder.UseSqlServer(connectionString);
-            base.OnConfiguring(optionsBuilder);
-        }*/
+        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    var connectionString = "Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = CulturalCnterDB ";
+        //    optionsBuilder.UseSqlServer(connectionString);
+        //    base.OnConfiguring(optionsBuilder);
+        //}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // تحويلات الـ Enums
