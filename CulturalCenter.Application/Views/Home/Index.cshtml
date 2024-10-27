@@ -1,0 +1,102 @@
+﻿@using CulturalCenter.Application.Areas.Identity.Pages.Account
+@using CulturalCenter.Application.Areas.Identity.Data
+
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<CulturalCenterApplicationUser> SignInManager
+@inject UserManager<CulturalCenterApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Cultural Center";
+}
+
+<link rel="stylesheet" href="~/css/index.css" asp-append-version="true" />
+
+<div class="container my-5">
+    <section class="mb-5">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <img src="~/images/librar.jpg" class="img-fluid" alt="Cultural Center">
+            </div>
+            <div class="col-md-6">
+                <h2 class="display-4">Welcome to the Cultural Center</h2>
+                <p class="lead">Our cultural center celebrates heritage, promotes the arts, and offers a wide range of books, exhibitions, and events. Join us and explore a world full of knowledge, arts, and culture.</p>
+            </div>
+        </div>
+    </section>
+
+ 
+    <section class="mb-5">
+        <h2 class="mb-4 text-center">Available Books</h2>
+        <div class="row">
+            @foreach (var book in Model.Books)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="~/images/book2.jpg" class="card-img-top" alt="@book.Name">
+                        <div class="card-body">
+                            <h5 class="card-title">@book.Name</h5>
+                            <p class="card-text">Type: @book.Type</p>
+                            <p><strong>Publication Date:</strong> @book.DateOfPublication.ToString("yyyy-MM-dd")</p>
+                            <p><strong>Price:</strong> @book.Price.ToString("C")</p>
+                            <a href="#" class="btn btn-primary">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+
+<section class="mb-5">
+    <h2 class="mb-4 text-center">Available Exhibitions</h2>
+    <div class="row">
+            @foreach (var exhibition in Model.Exhibitions)
+
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                            <img src="~/images/librar.jpg" class="card-img-top" alt="@exhibition.Name">
+                        <div class="card-body">
+                            <h5 class="card-title">@exhibition.Name</h5>
+                            <p class="card-text">Start Date: @exhibition.StartDate.ToString("yyyy-MM-dd")</p>
+                            <p class="card-text">End Date: @exhibition.EndDate.ToString("yyyy-MM-dd")</p>
+                            <a href="@Url.Action("Details", "Exhibitions", new { id = exhibition.Exhibitionid })" class="btn btn-primary">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            }
+    </div>
+</section>
+
+
+    <!-- Section 4: About the Library -->
+    <section class="mb-5">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <img src="~/images/cultural-azaz.jpg" class="img-fluid" alt="Library">
+            </div>
+            <div class="col-md-6">
+                <h2>The Cultural Center Library</h2>
+                <p>Our library is one of the most significant resources, offering a wide variety of books across many fields. Whether you're interested in cultural heritage, the arts, literature, or history, our library has something for you. Visit us and immerse yourself in knowledge.</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Display welcome message based on user's role -->
+@if (User.IsInRole("Admin"))
+
+{
+    <div class="alert alert-info text-center">
+        <h4>Welcome, Admin!</h4>
+        <p>You have administrative privileges. <a href="/Admin/Dashboard">Go to Admin Dashboard</a></p>
+    </div>
+}
+
+else if (User.IsInRole("Member"))
+
+{
+    <div class="alert alert-success text-center">
+        <h4>Welcome, Member!</h4>
+        <p>Enjoy the latest books and events curated just for you.</p>
+    </div>
+}

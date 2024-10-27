@@ -1,0 +1,68 @@
+﻿@model Domain.Models.Author
+
+<h2>Add New Author</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label for="Name">Name</label>
+        <input type="text" class="form-control" asp-for="Name" required />
+    </div>
+
+    <div class="form-group">
+        <label for="Country">Country</label>
+        <input type="text" class="form-control" asp-for="Country" required />
+    </div>
+
+    <div class="form-group">
+        <label for="Gender">Gender</label>
+        <select class="form-control" asp-for="Gender">
+            <option value="0">Male</option>
+            <option value="1">Female</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="BirthDay">BirthDay</label>
+        <input type="date" class="form-control" asp-for="BirthDay" required />
+    </div>
+
+    <!-- قسم إضافة الكتب -->
+    <h3>Books</h3>
+    <div id="booksList">
+        <!-- سيتم إضافة الكتب هنا -->
+    </div>
+
+    <button type="button" class="btn btn-primary" onclick="addBook()">Add Book</button>
+
+    <button type="submit" class="btn btn-success">Add Author</button>
+</form>
+
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<script>
+    // عداد لتتبع عدد الكتب
+    var bookIndex = 0;
+
+    function addBook() {
+        // عنصر الكتاب الجديد
+        var bookHtml = `
+            <div class="form-group" id="book-${bookIndex}">
+                <label for="Books_${bookIndex}__Title">Book Title</label>
+                <input type="text" class="form-control" name="Books[${bookIndex}].Title" required />
+                <label for="Books_${bookIndex}__PublishDate">Publish Date</label>
+                <input type="date" class="form-control" name="Books[${bookIndex}].PublishDate" required />
+                <button type="button" class="btn btn-danger" onclick="removeBook(${bookIndex})">Remove</button>
+            </div>
+        `;
+
+        // إضافة الكتاب إلى القائمة
+        document.getElementById('booksList').insertAdjacentHTML('beforeend', bookHtml);
+        bookIndex++;
+    }
+
+    function removeBook(index) {
+        // حذف الكتاب بناءً على index
+        var bookElement = document.getElementById(`book-${index}`);
+        bookElement.remove();
+    }
+</script>

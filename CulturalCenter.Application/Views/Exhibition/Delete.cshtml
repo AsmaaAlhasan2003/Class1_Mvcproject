@@ -1,0 +1,17 @@
+﻿@model Domain.Models.Exhibition
+
+<h2>Delete Exhibition</h2>
+
+<h3>Are you sure you want to delete this exhibition?</h3>
+<div>
+    <h4>@Model.Name</h4>
+    <p>Date: @Model.StartDate.ToString("yyyy-MM-dd") - @Model.EndDate.ToString("yyyy-MM-dd")</p>
+    <p>Number of Books: @Model.books.Count</p>
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Exhibitionid" />
+    <button type="submit" class="btn btn-danger">Yes, delete it!</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+

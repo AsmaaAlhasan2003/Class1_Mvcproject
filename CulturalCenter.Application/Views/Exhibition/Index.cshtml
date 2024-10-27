@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Domain.Models.Exhibition>
+
+<h2>Exhibition List</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Books</th>
+            <th>Visitors</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var exhibition in Model)
+        {
+            <tr>
+                <td>@exhibition.Name</td>
+                <td>@exhibition.StartDate.ToString("dd/MM/yyyy")</td>
+                <td>@exhibition.EndDate.ToString("dd/MM/yyyy")</td>
+                <td>
+                    @foreach (var book in exhibition.books)
+                    {
+                        <p>@book.Name</p>
+                    }
+                </td>
+                <td>
+                    @foreach (var visitor in exhibition.visitors)
+                    {
+                        <p>@visitor.Name</p>
+                    }
+                </td>
+                <td>
+                    <a href="@Url.Action("Edit", new { id = exhibition.Exhibitionid })" class="btn btn-primary">Edit</a>
+                    <a href="@Url.Action("Delete", new { id = exhibition.Exhibitionid })" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="@Url.Action("Create")" class="btn btn-success">Add New Exhibition</a>

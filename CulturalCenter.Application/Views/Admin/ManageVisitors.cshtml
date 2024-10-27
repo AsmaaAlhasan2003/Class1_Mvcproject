@@ -1,0 +1,27 @@
+﻿@model IList<Domain.Models.Visitor>
+
+<h2>Manage Visitors</h2>
+<a href="@Url.Action("Create", "Visitors")" class="btn btn-primary">Add New Visitor</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Contact Info</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var visitor in Model)
+        {
+            <tr>
+                <td>@visitor.Name</td>
+                <td>@visitor.VisitDate</td>
+                <td>
+                    <a href="@Url.Action("Edit", "Visitors", new { id = visitor.VisitorId })" class="btn btn-primary">Edit</a>
+                    <a href="@Url.Action("Delete", "Visitors", new { id = visitor.VisitorId })" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

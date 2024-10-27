@@ -1,0 +1,21 @@
+﻿@model IList<Domain.Models.Author>
+
+<h2 class="text-center mb-5">Our Authors</h2>
+
+<div class="row">
+    @foreach (var author in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="~/images/markmansoun.jpg" class="card-img-top" alt="@author.Name's picture" style="height: 250px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">@author.Name</h5>
+                    <p class="card-text">@author.Country</p>
+                    <a href="@Url.Action("Details", new { id = author.AuthorId })" class="btn btn-primary">More Info</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<a class="btn btn-primary mt-3" href="@Url.Action("Create")">Add New Author</a>

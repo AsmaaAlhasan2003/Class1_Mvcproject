@@ -1,0 +1,25 @@
+﻿@model Domain.Models.Visitor
+<link rel="stylesheet" href="~/css/Visitor.css" asp-append-version="true" />
+
+@{
+    ViewData["Title"] = "Visitor Details";
+}
+
+<h1>Visitor Details</h1>
+
+<table class="table table-bordered">
+    <tr>
+        <th>Name</th>
+        <td>@Model.Name</td>
+    </tr>
+    <tr>
+        <th>Contact Details</th>
+        <td>@Model.ContactDetails</td>
+    </tr>
+    <tr>
+        <th>Visit Date</th>
+        <td>@Model.VisitDate.ToShortDateString()</td>
+    </tr>
+</table>
+
+<a href="@Url.Action("Index", "Visitors")" class="btn btn-secondary">Back to List</a>

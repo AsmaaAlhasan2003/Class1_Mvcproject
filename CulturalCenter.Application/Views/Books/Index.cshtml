@@ -1,0 +1,79 @@
+﻿@model List<Domain.Models.Book>
+@using System.Linq
+<link rel="stylesheet" href="~/css/Book.css" asp-append-version="true" />
+<div class="container my-5">
+    <h2 class="text-center mb-5">Books Collection</h2>
+
+    <form asp-action="Search" method="get" class="mb-4">
+        <div class="input-group">
+            <input type="text" id="searchTerm" name="searchTerm" class="form-control" placeholder="Search by name or type..." onkeyup="showSuggestions(this.value)" autocomplete="off" />
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+
+        <div class="dropdown mt-2 w-100">
+            <ul id="suggestionsList" class="dropdown-menu w-100" style="display: none;">
+            </ul>
+        </div>
+    </form>
+
+    <div class="book-grid">
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var book in Model)
+            {
+                <div class="book-item">
+                    <img src="/images/book1.jpg" alt="Book Image" />
+                    <h5>@book.Name</h5>
+                    <p><strong>Type:</strong> @book.Type</p>
+                    <p><strong>Date of Publication:</strong> @book.DateOfPublication.ToString("MMMM dd, yyyy")</p>
+                    <p><strong>Price:</strong> $@book.Price.ToString("F2")</p>
+                    <p><strong>Section:</strong> @book.Section</p>
+                    <p><strong>Status:</strong> @book.Status.ToString()</p>
+                    <p><strong>Author:</strong> @book.Author?.Name ?? "Unknown"</p>
+
+                    <div class="btn-group mt-3">
+                        <a href="@Url.Action("Create", "Loan", new { bookId = book.Id })" class="btn btn-primary">استعارة</a>
+                        <a href="/api/BooksApi/download/@book.Id" class="btn btn-success ms-2">تنزيل الكتاب</a> <!-- زر تنزيل الكتاب -->
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <p class="text-center text-muted">No results found.</p>
+        }
+    </div>
+</div>
+
+<script>
+    function showSuggestions(query) {
+        var suggestionsList = document.getElementById('suggestionsList');
+
+        if (query.length == 0) {
+            suggestionsList.style.display = 'none';
+            return;
+        }
+
+        fetch('/Books/GetSuggestions?query=' + query)
+            .then(response => response.json())
+            .then(data => {
+                suggestionsList.innerHTML = '';
+
+                if (data.length > 0) {
+                    data.forEach(item => {
+                        var listItem = document.createElement('li');
+                        listItem.classList.add('dropdown-item');
+                        listItem.textContent = item;
+                        listItem.onclick = function () {
+                            document.getElementById('searchTerm').value = item;
+                            suggestionsList.style.display = 'none';
+                        };
+                        suggestionsList.appendChild(listItem);
+                    });
+                    suggestionsList.style.display = 'block';
+                } else {
+                    suggestionsList.style.display = 'none';
+                }
+            });
+    }
+</script>

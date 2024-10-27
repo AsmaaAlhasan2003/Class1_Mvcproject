@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<h2>Admin Dashboard</h2>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">Total Books</h5>
+                <p class="card-text">@ViewBag.TotalBooks</p>
+                <a href="@Url.Action("ManageBooks", "Admin")" class="btn btn-primary">Manage Books</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">Total Authors</h5>
+                <p class="card-text">@ViewBag.TotalAuthors</p>
+                <a href="@Url.Action("ManageAuthors", "Admin")" class="btn btn-primary">Manage Authors</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">Total Visitors</h5>
+                <p class="card-text">@ViewBag.TotalVisitors</p>
+                <a href="@Url.Action("ManageVisitors", "Admin")" class="btn btn-primary">Manage Visitors</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">Total Loans</h5>
+                <p class="card-text">@ViewBag.TotalLoans</p>
+                <a href="@Url.Action("ManageLoans", "Admin")" class="btn btn-primary">Manage Loans</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">Total Exhibitions</h5>
+                <p class="card-text">@ViewBag.TotalExhibitions</p>
+                <a href="@Url.Action("ManageExhibitions", "Admin")" class="btn btn-primary">Manage Exhibitions</a>
+            </div>
+        </div>
+    </div>
+</div>

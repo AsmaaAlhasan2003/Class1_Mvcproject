@@ -1,0 +1,72 @@
+﻿@model Domain.Models.Visitor
+<link rel="stylesheet" href="~/css/Visitor.css" asp-append-version="true" />
+
+<h1>Create New Visitor</h1>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ContactDetails" class="control-label"></label>
+        <input asp-for="ContactDetails" class="form-control" />
+        <span asp-validation-for="ContactDetails" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="VisitDate" class="control-label"></label>
+        <input asp-for="VisitDate" class="form-control" type="date" />
+        <span asp-validation-for="VisitDate" class="text-danger"></span>
+    </div>
+
+    <!-- Exhibition Selection -->
+    <div class="form-group">
+        <label asp-for="ExhibitionId" class="control-label">Exhibition</label>
+        <select asp-for="ExhibitionId" class="form-control">
+            <option value="">-- Select Exhibition --</option>
+            <!-- في هذا الجزء سيتم عرض قائمة المعارض من قاعدة البيانات -->
+            @* هنا يمكنك جلب قائمة المعارض من الـ ViewBag أو الـ Model *@
+        </select>
+        <span asp-validation-for="ExhibitionId" class="text-danger"></span>
+    </div>
+
+    <!-- Reservations (Activities List) -->
+    <div class="form-group">
+        <label asp-for="Reservations" class="control-label">Reservations (Activities)</label>
+        <select asp-for="Reservations" class="form-control" multiple>
+            <!-- هنا يمكن عرض قائمة الأنشطة المتاحة للحجز -->
+            @* يمكنك جلب قائمة الأنشطة من قاعدة البيانات *@
+            <option value="1">Activity 1</option>
+            <option value="2">Activity 2</option>
+            <!-- إلخ... -->
+        </select>
+    </div>
+
+    <!-- Notifications (List) -->
+    <div class="form-group">
+        <label asp-for="Notifications" class="control-label">Notifications</label>
+        <select asp-for="Notifications" class="form-control" multiple>
+            <!-- هنا يمكنك عرض قائمة الإشعارات أو الرسائل المرسلة لهذا الزائر -->
+            <option value="1">Notification 1</option>
+            <option value="2">Notification 2</option>
+            <!-- إلخ... -->
+        </select>
+    </div>
+
+    <!-- Loans (List) -->
+    <div class="form-group">
+        <label asp-for="Loans" class="control-label">Loans</label>
+        <select asp-for="Loans" class="form-control" multiple>
+            <!-- قائمة القروض التي قام الزائر باقتراضها -->
+            <option value="1">Loan 1</option>
+            <option value="2">Loan 2</option>
+            <!-- إلخ... -->
+        </select>
+    </div>
+
+    <!-- زر الإرسال -->
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>

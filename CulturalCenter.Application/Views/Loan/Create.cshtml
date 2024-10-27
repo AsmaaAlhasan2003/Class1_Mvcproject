@@ -1,0 +1,45 @@
+﻿@model Domain.Models.Loan
+
+<h2>Create Loan</h2>
+
+<form asp-action="Create" method="post">
+    <!-- عرض بيانات الكتاب -->
+    <div class="form-group">
+        <label for="Book">Book</label>
+        @if (ViewBag.Book != null)
+        {
+                <input type="hidden" asp-for="BookId" value="@ViewBag.Book.Id" />
+                <p>@ViewBag.Book.Name (@ViewBag.Book.Type)</p>
+        }
+        else
+        {
+                <p class="text-danger">Error: Book not found.</p>
+        }
+    </div>
+
+    <!-- عرض قائمة الزوار -->
+    <div class="form-group">
+        <label for="Visitor">Visitor</label>
+        <select asp-for="VisitorId" class="form-control" asp-items="ViewBag.Visitors"></select>
+        <span asp-validation-for="VisitorId" class="text-danger"></span>
+    </div>
+
+    <!-- حقل تاريخ الاستعارة -->
+    <div class="form-group">
+        <label asp-for="BorrowDate" class="control-label">Borrow Date</label>
+        <input asp-for="BorrowDate" class="form-control" type="date" />
+        <span asp-validation-for="BorrowDate" class="text-danger"></span>
+    </div>
+
+    <!-- حقل تاريخ الإرجاع -->
+    <div class="form-group">
+        <label asp-for="ReturnDate" class="control-label">Return Date</label>
+        <input asp-for="ReturnDate" class="form-control" type="date" />
+        <span asp-validation-for="ReturnDate" class="text-danger"></span>
+    </div>
+
+    <!-- زر الإضافة -->
+    <button type="submit" class="btn btn-primary">Add Loan</button>
+</form>
+
+<div asp-validation-summary="All" class="text-danger"></div>

@@ -1,0 +1,35 @@
+﻿@model IList<Domain.Models.Visitor>
+<link rel="stylesheet" href="~/css/Visitor.css" asp-append-version="true" />
+
+<h2>Visitors List</h2>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Contact Details</th>
+                <th>Visit Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var visitor in Model)
+            {
+                <tr>
+                    <td>@visitor.Name</td>
+                    <td>@visitor.ContactDetails</td>
+                    <td>@visitor.VisitDate.ToShortDateString()</td>
+                    <td>
+                        <a href="@Url.Action("Details", "Visitors", new { id = visitor.VisitorId })" class="btn btn-info">Details</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No visitors found.</p>
+}

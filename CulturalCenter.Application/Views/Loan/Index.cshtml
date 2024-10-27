@@ -1,0 +1,31 @@
+﻿@model IList<Domain.Models.Loan>
+
+<h2>Loan List</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Book</th>
+            <th>Visitor</th>
+            <th>Borrow Date</th>
+            <th>Return Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var loan in Model)
+        {
+            <tr>
+                <td>@loan.Book.Name</td>
+                <td>@loan.Visitor.Name</td>
+                <td>@loan.BorrowDate.ToString("yyyy-MM-dd")</td>
+                <td>@loan.ReturnDate?.ToString("yyyy-MM-dd") ?? "Not Returned"</td>
+                <td>
+                    <a class="btn btn-danger" href="@Url.Action("Delete", new { id = loan.LoanId })">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a class="btn btn-primary" href="@Url.Action("Create")">Add New Loan</a>

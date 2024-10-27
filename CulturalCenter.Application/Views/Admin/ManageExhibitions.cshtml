@@ -1,0 +1,30 @@
+﻿<!-- View: ManageExhibitions.cshtml -->
+@model IEnumerable<Domain.Models.Exhibition>
+
+<h2>Manage Exhibitions</h2>
+<a href="@Url.Action("Create", "Exhibition")" class="btn btn-primary">Add New Exhibition</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var exhibition in Model)
+        {
+            <tr>
+                <td>@exhibition.Name</td>
+                <td>@exhibition.StartDate.ToString("yyyy-MM-dd")</td>
+                <td>@exhibition.EndDate.ToString("yyyy-MM-dd")</td>
+
+                <td>
+                    <a href="@Url.Action("Edit", "Exhibition", new { id = exhibition.Exhibitionid })" class="btn btn-primary">Edit</a>
+                    <a href="@Url.Action("Delete", "Exhibition", new { id = exhibition.Exhibitionid })" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
