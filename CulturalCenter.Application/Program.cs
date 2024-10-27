@@ -44,7 +44,7 @@ public class Program
         builder.Services.AddTransient<IRepository<Loan>,LoanRepository>();
 
         builder.Services.AddControllersWithViews();
-
+        builder.Services.AddControllers();
         var app = builder.Build();
 
         if (!app.Environment.IsDevelopment())
@@ -61,6 +61,7 @@ public class Program
         app.UseAuthorization();
 
         app.MapRazorPages();
+        app.MapControllers();
         app.MapControllerRoute(
             name: "default",
             pattern: "{controller=Home}/{action=Index}/{id?}");

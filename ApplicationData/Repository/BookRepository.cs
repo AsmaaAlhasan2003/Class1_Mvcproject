@@ -12,7 +12,6 @@ namespace ApplicationData.Repositories
     public class BookRepository : IRepository<Book>
     {
         private readonly MnagementBdContext _context;
-
         public BookRepository(MnagementBdContext context)
         {
             _context = context;
