@@ -39,8 +39,7 @@ namespace CulturalCenter.Application.ApiController
 
                 var fileBytes = await System.IO.File.ReadAllBytesAsync(filePath);
                 var fileName = Path.GetFileName(filePath);
-                var contentType = "application/pdf"; 
-
+                var contentType = "application/pdf";
                 return File(fileBytes, contentType, fileName);
             }
         }

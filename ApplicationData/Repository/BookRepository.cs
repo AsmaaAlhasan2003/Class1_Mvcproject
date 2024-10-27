@@ -17,7 +17,7 @@ namespace ApplicationData.Repositories
             _context = context;
         }
 
-
+        
         public async Task<List<Book>> GetAllAsync()
         {
             return await _context.Books
@@ -29,8 +29,8 @@ namespace ApplicationData.Repositories
         public async Task<Book> GetByIdAsync(int bookId)
         {
             return await _context.Books
-                .Include(b => b.Author) 
-                .Include(b => b.Exhibition) 
+                .Include(b => b.Author)
+                .Include(b => b.Exhibition)
                 .FirstOrDefaultAsync(b => b.Id == bookId);
         }
 
