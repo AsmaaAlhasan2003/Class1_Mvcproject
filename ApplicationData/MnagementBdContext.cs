@@ -22,6 +22,24 @@ namespace ApplicationData
         //    optionsBuilder.UseSqlServer(connectionString);
         //    base.OnConfiguring(optionsBuilder);
         //}
+        public static void SeedingInitialDbValues(MnagementBdContext context)
+        {
+            context.Database.EnsureDeleted();
+            context.Database.Migrate();
+            context.Books.Add(
+            new Book
+            {
+                Name = "Introduction to AI",
+                AuthorId = 1, // افتراض أن المؤلف موجود بالفعل
+                DateOfPublication = new DateTime(2023, 10, 20),
+                Price = 99.99,
+                Section = Domain.Enum.BookSection.Science,
+                Status = Domain.Enum.BookStatus.Available,
+                FilePath = "BooksFiles/IntroductionToAI.pdf"
+            });
+        }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // تحويلات الـ Enums

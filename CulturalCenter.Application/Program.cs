@@ -28,7 +28,7 @@ public class Program
         // تسجيل DbContext لـ MnagementBdContext
         builder.Services.AddDbContext<MnagementBdContext>(options =>
             options.UseSqlServer(connectionStringMnagementBd));
-
+        
         // تسجيل الهوية مع المستخدم المخصص CulturalCenterApplicationUser
         builder.Services.AddDefaultIdentity<CulturalCenterApplicationUser>(options =>
             options.SignIn.RequireConfirmedAccount = false)

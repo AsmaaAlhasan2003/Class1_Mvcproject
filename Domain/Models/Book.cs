@@ -11,7 +11,7 @@ namespace Domain.Models
         public string Name { get; set; } 
        public int? AuthorId {  get; set; }
         public Author? Author { get; set; }
-        public string Type { get; set; }
+       
         public DateTime DateOfPublication { get; set; }
         public double Price { get; set; }
         public BookSection Section { get; set; }

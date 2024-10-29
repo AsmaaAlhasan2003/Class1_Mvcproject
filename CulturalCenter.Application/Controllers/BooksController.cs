@@ -1,4 +1,5 @@
 ﻿using ApplicationData.Repository;
+using Domain.Enum;
 using Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +9,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace CulturalCenter.Application.Controllers
 {
@@ -54,6 +56,19 @@ namespace CulturalCenter.Application.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Book book, IFormFile file)
         {
+            var testBook = new Book
+            {
+                Name = "Test Book",
+                AuthorId = 1,
+                DateOfPublication = DateTime.Now,
+                Price = 19.99,
+                Section = BookSection.Science,
+                Status = BookStatus.Available
+            };
+
+            await _bookRepository.AddAsync(testBook);
+            await _bookRepository.SaveChangesAsync();
+
             if (ModelState.IsValid)
             {
                 try
@@ -130,16 +145,11 @@ namespace CulturalCenter.Application.Controllers
         {
             var books = (await _bookRepository.GetAllAsync()).AsQueryable();
 
-            if (!string.IsNullOrEmpty(searchTerm))
-            {
-                books = books.Where(b => b.Name.Contains(searchTerm) || b.Type.Contains(searchTerm));
-            }
 
             if (!string.IsNullOrEmpty(filterBy) && !string.IsNullOrEmpty(filterValue))
             {
                 books = filterBy switch
                 {
-                    "Type" => books.Where(b => b.Type.Contains(filterValue)),
                     "Author" => books.Where(b => b.Author.Name.Contains(filterValue)),
                     "Section" => books.Where(b => b.Section.ToString().Contains(filterValue)),
                     "Status" => books.Where(b => b.Status.ToString().Contains(filterValue)),
@@ -159,14 +169,12 @@ namespace CulturalCenter.Application.Controllers
                 {
                     Name = "Introduction to AI",
                     AuthorId = 1, // افتراض أن المؤلف موجود بالفعل
-                    Type = "Science",
                     DateOfPublication = new DateTime(2023, 10, 20),
                     Price = 99.99,
                     Section = Domain.Enum.BookSection.Science,
                     Status = Domain.Enum.BookStatus.Available,
                     FilePath = "BooksFiles/IntroductionToAI.pdf"
                 };
-
                 // إضافة الكتاب الجديد لقاعدة البيانات
                 await _bookRepository.AddAsync(book);
 

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace ApplicationData.Repositories
@@ -29,13 +30,13 @@ namespace ApplicationData.Repositories
         {
             return await _context.Books
                 .Include(b => b.Author)
-                
                 .FirstOrDefaultAsync(b => b.Id == bookId);
         }
 
         public async Task<Book> AddAsync(Book book)
         {
             
+
             await _context.Books.AddAsync(book);
            await SaveChangesAsync();
             return book;
@@ -74,7 +75,7 @@ namespace ApplicationData.Repositories
             var book = await _context.Books.FindAsync(bookId); 
             if (book != null)
             {
-                book.Status = BookStatus.Removed; 
+                _context.Books.Remove(book); 
              await   SaveChangesAsync(); 
             }
         }
