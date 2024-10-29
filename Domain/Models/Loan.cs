@@ -14,11 +14,10 @@ namespace Domain.Models
 
        
         public int BookId { get; set; }
-        public int VisitorId { get; set; }
-
+      
        
         public Book Book { get; set; } = new Book();
-        public Visitor Visitor { get; set; } 
+    
     }
 
 }

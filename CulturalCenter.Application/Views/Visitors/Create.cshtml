@@ -22,16 +22,6 @@
         <span asp-validation-for="VisitDate" class="text-danger"></span>
     </div>
 
-    <!-- Exhibition Selection -->
-    <div class="form-group">
-        <label asp-for="ExhibitionId" class="control-label">Exhibition</label>
-        <select asp-for="ExhibitionId" class="form-control">
-            <option value="">-- Select Exhibition --</option>
-            <!-- في هذا الجزء سيتم عرض قائمة المعارض من قاعدة البيانات -->
-            @* هنا يمكنك جلب قائمة المعارض من الـ ViewBag أو الـ Model *@
-        </select>
-        <span asp-validation-for="ExhibitionId" class="text-danger"></span>
-    </div>
 
     <!-- Reservations (Activities List) -->
     <div class="form-group">
@@ -56,15 +46,7 @@
         </select>
     </div>
 
-    <!-- Loans (List) -->
-    <div class="form-group">
-        <label asp-for="Loans" class="control-label">Loans</label>
-        <select asp-for="Loans" class="form-control" multiple>
-            <!-- قائمة القروض التي قام الزائر باقتراضها -->
-            <option value="1">Loan 1</option>
-            <option value="2">Loan 2</option>
-            <!-- إلخ... -->
-        </select>
+   
     </div>
 
     <!-- زر الإرسال -->

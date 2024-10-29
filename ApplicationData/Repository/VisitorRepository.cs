@@ -22,8 +22,7 @@ namespace ApplicationData.Repositories
             return await _context.Visitors
                 .Include(v => v.Reservations)
                 .Include(v => v.Notifications)
-                .Include(v => v.Loans)
-                .Include(v => v.exhibition)
+      
                 .ToListAsync();
         }
 
@@ -32,8 +31,7 @@ namespace ApplicationData.Repositories
             return await _context.Visitors
                 .Include(v => v.Reservations)
                 .Include(v => v.Notifications)
-                .Include(v => v.Loans)
-                .Include(v => v.exhibition)
+           
                 .FirstOrDefaultAsync(v => v.VisitorId == visitorId);
         }
 
@@ -49,7 +47,7 @@ namespace ApplicationData.Repositories
             var existingVisitor = await _context.Visitors
                 .Include(v => v.Reservations)
                 .Include(v => v.Notifications)
-                .Include(v => v.Loans)
+               
                 .FirstOrDefaultAsync(v => v.VisitorId == visitor.VisitorId);
 
             if (existingVisitor == null)
@@ -63,8 +61,7 @@ namespace ApplicationData.Repositories
             existingVisitor.VisitDate = visitor.VisitDate;
             existingVisitor.Reservations = visitor.Reservations;
             existingVisitor.Notifications = visitor.Notifications;
-            existingVisitor.Loans = visitor.Loans;
-            existingVisitor.ExhibitionId = visitor.ExhibitionId;
+           
 
             _context.Update(existingVisitor);
             await SaveChangesAsync();

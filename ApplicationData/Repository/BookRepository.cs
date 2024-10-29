@@ -22,7 +22,6 @@ namespace ApplicationData.Repositories
         {
             return await _context.Books
                 .Include(b => b.Author) 
-                .Include(b => b.Exhibition) 
                 .ToListAsync(); 
         }
 
@@ -30,7 +29,7 @@ namespace ApplicationData.Repositories
         {
             return await _context.Books
                 .Include(b => b.Author)
-                .Include(b => b.Exhibition)
+                
                 .FirstOrDefaultAsync(b => b.Id == bookId);
         }
 
@@ -38,7 +37,7 @@ namespace ApplicationData.Repositories
         {
             
             await _context.Books.AddAsync(book);
-            SaveChangesAsync();
+           await SaveChangesAsync();
             return book;
         }
 
@@ -61,10 +60,10 @@ namespace ApplicationData.Repositories
             existingBook.Status = book.Status;
             existingBook.DateOfPublication = book.DateOfPublication;
             existingBook.AuthorId = book.AuthorId;
-            existingBook.ExhibitionId = book.ExhibitionId;
+           
 
             _context.Update(existingBook);
-            SaveChangesAsync();
+           await SaveChangesAsync();
             Console.WriteLine("تم تحديث الكتاب بنجاح.");
         }
 
@@ -76,7 +75,7 @@ namespace ApplicationData.Repositories
             if (book != null)
             {
                 book.Status = BookStatus.Removed; 
-                SaveChangesAsync(); 
+             await   SaveChangesAsync(); 
             }
         }
 

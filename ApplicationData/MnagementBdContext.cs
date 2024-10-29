@@ -29,13 +29,6 @@ namespace ApplicationData
             modelBuilder.Entity<Book>().Property(b => b.Status).HasConversion<int>();
             modelBuilder.Entity<Book>().Property(b => b.Section).HasConversion<int>();
 
-            // العلاقة بين Book و Exhibition (Many-to-One)
-            modelBuilder.Entity<Book>()
-                .HasOne(b => b.Exhibition)
-                .WithMany(e => e.books)
-                .HasForeignKey(b => b.ExhibitionId)
-                .OnDelete(DeleteBehavior.NoAction);
-
             // العلاقة بين Visitor و Activity (One-to-Many)
             modelBuilder.Entity<Visitor>()
                 .HasMany(v => v.activities)
@@ -57,20 +50,7 @@ namespace ApplicationData
                 .HasForeignKey(n => n.VisitorId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            // العلاقة بين Exhibition و Visitor (One-to-Many)
-            modelBuilder.Entity<Exhibition>()
-                .HasMany(e => e.visitors)
-                .WithOne(v => v.exhibition)
-                .HasForeignKey(v => v.ExhibitionId)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            // العلاقة بين Exhibition و Book (One-to-Many)
-            modelBuilder.Entity<Exhibition>()
-               .HasMany(e => e.books)
-               .WithOne(b => b.Exhibition)
-               .HasForeignKey(b => b.ExhibitionId)
-               .OnDelete(DeleteBehavior.NoAction);
-
+          
             // العلاقة بين Author و Book (One-to-Many)
             modelBuilder.Entity<Author>()
                 .HasMany(a => a.Books)
@@ -85,13 +65,7 @@ namespace ApplicationData
                 .HasForeignKey(l => l.BookId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            // العلاقة بين Visitor و Loan (One-to-Many)
-            modelBuilder.Entity<Visitor>()
-                .HasMany(v => v.Loans)
-                .WithOne(l => l.Visitor)
-                .HasForeignKey(l => l.VisitorId)
-                .OnDelete(DeleteBehavior.NoAction);
-
+            
             base.OnModelCreating(modelBuilder);
         }
     }

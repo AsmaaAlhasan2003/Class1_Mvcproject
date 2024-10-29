@@ -21,7 +21,6 @@ namespace ApplicationData.Repositories
         {
             return await _context.Loans
                 .Include(l => l.Book)
-                .Include(l => l.Visitor)
                 .ToListAsync();
         }
 
@@ -29,7 +28,6 @@ namespace ApplicationData.Repositories
         {
             return await _context.Loans
                 .Include(l => l.Book)
-                .Include(l => l.Visitor)
                 .FirstOrDefaultAsync(l => l.LoanId == loanId);
         }
 
@@ -44,7 +42,6 @@ namespace ApplicationData.Repositories
         {
             var existingLoan = await _context.Loans
                 .Include(l => l.Book)
-                .Include(l => l.Visitor)
                 .FirstOrDefaultAsync(l => l.LoanId == loan.LoanId);
 
             if (existingLoan == null)
@@ -56,7 +53,6 @@ namespace ApplicationData.Repositories
             existingLoan.BorrowDate = loan.BorrowDate;
             existingLoan.ReturnDate = loan.ReturnDate;
             existingLoan.BookId = loan.BookId;
-            existingLoan.VisitorId = loan.VisitorId;
 
             _context.Update(existingLoan);
             await SaveChangesAsync();

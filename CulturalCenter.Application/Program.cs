@@ -12,7 +12,6 @@ public class Program
     public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-     
 
         // الحصول على سلسلة الاتصال لقاعدة البيانات CulturalCenterApplicationContext
         var connectionStringCulturalCenter = builder.Configuration.GetConnectionString("CulturalCenterApplicationContextConnection")
@@ -36,15 +35,23 @@ public class Program
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<CulturalCenterApplicationContext>();
 
+        // إعداد مسار صفحة تسجيل الدخول
+        builder.Services.ConfigureApplicationCookie(options =>
+        {
+            options.LoginPath = "/Identity/Account/Login"; // تعديل المسار للإشارة إلى منطقة الـ Identity
+            options.AccessDeniedPath = "/Identity/Account/AccessDenied"; // مسار رفض الوصول
+        });
+
         // تسجيل الريبوزيتوري
         builder.Services.AddTransient<IRepository<Book>, BookRepository>();
         builder.Services.AddTransient<IRepository<Visitor>, VisitorRepository>();
-        builder.Services.AddTransient<IRepository<Exhibition>,ExhibitionRepository>();
+        builder.Services.AddTransient<IRepository<Exhibition>, ExhibitionRepository>();
         builder.Services.AddTransient<IRepository<Author>, AuthorRepository>();
-        builder.Services.AddTransient<IRepository<Loan>,LoanRepository>();
+        builder.Services.AddTransient<IRepository<Loan>, LoanRepository>();
 
         builder.Services.AddControllersWithViews();
-        builder.Services.AddControllers();
+        builder.Services.AddRazorPages(); // إضافة Razor Pages للتأكد من تسجيل صفحات الهوية
+
         var app = builder.Build();
 
         if (!app.Environment.IsDevelopment())
@@ -60,7 +67,7 @@ public class Program
         app.UseAuthentication();
         app.UseAuthorization();
 
-        app.MapRazorPages();
+        app.MapRazorPages(); // لتسجيل صفحات الهوية
         app.MapControllers();
         app.MapControllerRoute(
             name: "default",

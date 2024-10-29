@@ -149,5 +149,38 @@ namespace CulturalCenter.Application.Controllers
 
             return View("Index", books.ToList());
         }
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AddManualBook()
+        {
+            try
+            {
+                // إنشاء كتاب جديد وإضافة بيانات يدوية
+                var book = new Book
+                {
+                    Name = "Introduction to AI",
+                    AuthorId = 1, // افتراض أن المؤلف موجود بالفعل
+                    Type = "Science",
+                    DateOfPublication = new DateTime(2023, 10, 20),
+                    Price = 99.99,
+                    Section = Domain.Enum.BookSection.Science,
+                    Status = Domain.Enum.BookStatus.Available,
+                    FilePath = "BooksFiles/IntroductionToAI.pdf"
+                };
+
+                // إضافة الكتاب الجديد لقاعدة البيانات
+                await _bookRepository.AddAsync(book);
+
+                // عرض رسالة نجاح
+                TempData["SuccessMessage"] = "Book has been added manually!";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error adding book manually.");
+                ModelState.AddModelError("", "Error adding book manually.");
+                return View("Error"); // عرض صفحة خطأ أو إعادة التوجيه إلى صفحة أخرى
+            }
+        }
     }
 }
+    

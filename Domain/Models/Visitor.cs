@@ -15,9 +15,8 @@ namespace Domain.Models
         public DateTime VisitDate { get; set; }
         public List<Activity> Reservations { get; set; } = new List<Activity>();
         public List<Notification> Notifications { get; set; } = new List<Notification>();
-        public List<Loan> Loans { get; set; } = new List<Loan>();
-        public int? ExhibitionId { get; set; }
-        public Exhibition? exhibition { get; set; }
+
+    
         public List<Activity> activities { get; set; } = new List<Activity>();
     }
 
