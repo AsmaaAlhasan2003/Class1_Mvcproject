@@ -13,28 +13,39 @@ namespace ApplicationData
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Visitor> Visitors { get; set; }
-         public MnagementBdContext(DbContextOptions<MnagementBdContext> options) : base(options)
-           {
-           }
-       /* protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public MnagementBdContext(DbContextOptions<MnagementBdContext> options) : base(options)
         {
-            var connectionString = "Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = CulturalCnterDB ";
-            optionsBuilder.UseSqlServer(connectionString);
-            base.OnConfiguring(optionsBuilder);
-        }*/
+        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    var connectionString = "Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = CulturalCnterDB ";
+        //    optionsBuilder.UseSqlServer(connectionString);
+        //    base.OnConfiguring(optionsBuilder);
+        //}
+        public static void SeedingInitialDbValues(MnagementBdContext context)
+        {
+            context.Database.EnsureDeleted();
+            context.Database.Migrate();
+            context.Books.Add(
+            new Book
+            {
+                Name = "Introduction to AI",
+                AuthorId = 1, // افتراض أن المؤلف موجود بالفعل
+                DateOfPublication = new DateTime(2023, 10, 20),
+                Price = 99.99,
+                Section = Domain.Enum.BookSection.Science,
+                Status = Domain.Enum.BookStatus.Available,
+                FilePath = "BooksFiles/IntroductionToAI.pdf"
+            });
+        }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // تحويلات الـ Enums
             modelBuilder.Entity<Author>().Property(a => a.Gender).HasConversion<int>();
             modelBuilder.Entity<Book>().Property(b => b.Status).HasConversion<int>();
             modelBuilder.Entity<Book>().Property(b => b.Section).HasConversion<int>();
-
-            // العلاقة بين Book و Exhibition (Many-to-One)
-            modelBuilder.Entity<Book>()
-                .HasOne(b => b.Exhibition)
-                .WithMany(e => e.books)
-                .HasForeignKey(b => b.ExhibitionId)
-                .OnDelete(DeleteBehavior.NoAction);
 
             // العلاقة بين Visitor و Activity (One-to-Many)
             modelBuilder.Entity<Visitor>()
@@ -57,20 +68,7 @@ namespace ApplicationData
                 .HasForeignKey(n => n.VisitorId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            // العلاقة بين Exhibition و Visitor (One-to-Many)
-            modelBuilder.Entity<Exhibition>()
-                .HasMany(e => e.visitors)
-                .WithOne(v => v.exhibition)
-                .HasForeignKey(v => v.ExhibitionId)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            // العلاقة بين Exhibition و Book (One-to-Many)
-            modelBuilder.Entity<Exhibition>()
-               .HasMany(e => e.books)
-               .WithOne(b => b.Exhibition)
-               .HasForeignKey(b => b.ExhibitionId)
-               .OnDelete(DeleteBehavior.NoAction);
-
+          
             // العلاقة بين Author و Book (One-to-Many)
             modelBuilder.Entity<Author>()
                 .HasMany(a => a.Books)
@@ -85,13 +83,7 @@ namespace ApplicationData
                 .HasForeignKey(l => l.BookId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            // العلاقة بين Visitor و Loan (One-to-Many)
-            modelBuilder.Entity<Visitor>()
-                .HasMany(v => v.Loans)
-                .WithOne(l => l.Visitor)
-                .HasForeignKey(l => l.VisitorId)
-                .OnDelete(DeleteBehavior.NoAction);
-
+            
             base.OnModelCreating(modelBuilder);
         }
     }

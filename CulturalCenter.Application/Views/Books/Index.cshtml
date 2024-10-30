@@ -24,7 +24,7 @@
                 <div class="book-item">
                     <img src="/images/book1.jpg" alt="Book Image" />
                     <h5>@book.Name</h5>
-                    <p><strong>Type:</strong> @book.Type</p>
+                   
                     <p><strong>Date of Publication:</strong> @book.DateOfPublication.ToString("MMMM dd, yyyy")</p>
                     <p><strong>Price:</strong> $@book.Price.ToString("F2")</p>
                     <p><strong>Section:</strong> @book.Section</p>
@@ -43,6 +43,24 @@
             <p class="text-center text-muted">No results found.</p>
         }
     </div>
+   
+
+<div class="container my-5">
+    <h2>Books Collection</h2>
+
+    <div class="book-grid">
+        @foreach (var book in Model)
+        {
+            <div class="book-item">
+                <h5>@book.Name</h5>
+              
+                <p><strong>Price:</strong> $@book.Price</p>
+                <a asp-action="Delete" asp-route-id="@book.Id" class="btn btn-danger">Delete</a>
+            </div>
+        }
+    </div>
+</div>
+
 </div>
 
 <script>

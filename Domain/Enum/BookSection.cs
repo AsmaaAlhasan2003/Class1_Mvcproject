@@ -8,10 +8,11 @@ namespace Domain.Enum
 {
     public enum BookSection
     {
-        Fiction = 1,
-        Drama = 2,
-        Science = 3,
-        History = 4
+        Fiction=1,
+        Drama =2,
+        Science=3 ,
+        History =4,
+        religios=5
     }
 
 }

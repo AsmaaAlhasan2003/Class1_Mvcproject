@@ -71,9 +71,7 @@ namespace CulturalCenter.Application.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    exhibition.books = (await _bookRepository.GetAllAsync()).Where(b => selectedBooks.Contains(b.Id)).ToList();
-                    exhibition.visitors = (await _visitorRepository.GetAllAsync()).Where(v => selectedVisitors.Contains((int)v.VisitorId)).ToList();
-
+                 
                     await _exhibitionRepository.AddAsync(exhibition);
                     await _exhibitionRepository.SaveChangesAsync();
 

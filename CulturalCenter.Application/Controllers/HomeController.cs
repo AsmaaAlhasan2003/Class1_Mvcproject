@@ -14,7 +14,6 @@ namespace CulturalCenter.Application.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IRepository<Book> _bookRepository; 
         private readonly IRepository<Exhibition> _exhibitionrepository;
-        // حقن ILogger و IBookRepository
         public HomeController(ILogger<HomeController> logger,
             IRepository<Book> bookRepository,
             IRepository<Exhibition> exhibitionrepository)

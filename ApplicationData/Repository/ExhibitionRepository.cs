@@ -15,14 +15,14 @@ namespace ApplicationData.Repository
             _context = context;
         }
 
-        public async Task<Exhibition> GetByIdAsync(int id)
-        {
-            return await _context.Exhibitions.FindAsync(id); 
-        }
-
+       
         public async Task<List<Exhibition>> GetAllAsync()
         {
             return await _context.Exhibitions.ToListAsync(); 
+        }
+        public async Task<Exhibition> GetByIdAsync(int id)
+        {
+            return await _context.Exhibitions.FindAsync(id);
         }
 
         public async Task<Exhibition> AddAsync(Exhibition exhibition)

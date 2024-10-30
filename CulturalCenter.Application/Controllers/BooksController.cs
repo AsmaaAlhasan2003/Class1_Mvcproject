@@ -1,12 +1,15 @@
 ﻿using ApplicationData.Repository;
+using Domain.Enum;
 using Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace CulturalCenter.Application.Controllers
 {
@@ -53,28 +56,39 @@ namespace CulturalCenter.Application.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Book book, IFormFile file)
         {
+            var testBook = new Book
+            {
+                Name = "Test Book",
+                AuthorId = 1,
+                DateOfPublication = DateTime.Now,
+                Price = 19.99,
+                Section = BookSection.Science,
+                Status = BookStatus.Available
+            };
+
+            await _bookRepository.AddAsync(testBook);
+            await _bookRepository.SaveChangesAsync();
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    // التحقق من وجود الملف ورفع الملف
+         
                     if (file != null && file.Length > 0)
                     {
-                        // تعيين مسار حفظ الملف في مجلد wwwroot/BooksFiles
+            
                         var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "BooksFiles");
-                        Directory.CreateDirectory(uploadsFolder);
+                        Directory.CreateDirectory(uploadsFolder); 
 
-                        // اسم الملف النهائي
-                        var filePath = Path.Combine(uploadsFolder, file.FileName);
+                        var uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+                        var filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
-                        // نسخ الملف إلى المسار
                         using (var stream = new FileStream(filePath, FileMode.Create))
                         {
                             await file.CopyToAsync(stream);
                         }
 
-                        // تعيين مسار الملف في قاعدة البيانات
-                        book.FilePath = Path.Combine("BooksFiles", file.FileName);
+                        book.FilePath = Path.Combine("BooksFiles", uniqueFileName);
                     }
 
                     await _bookRepository.AddAsync(book);
@@ -89,7 +103,6 @@ namespace CulturalCenter.Application.Controllers
                 }
             }
 
-            // إذا حدث خطأ، إعادة البيانات إلى الـ View
             var authors = await _authorRepository.GetAllAsync();
             ViewBag.Authors = new SelectList(authors, "AuthorId", "Name");
 
@@ -98,7 +111,6 @@ namespace CulturalCenter.Application.Controllers
 
             return View(book);
         }
-
 
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
@@ -133,16 +145,11 @@ namespace CulturalCenter.Application.Controllers
         {
             var books = (await _bookRepository.GetAllAsync()).AsQueryable();
 
-            if (!string.IsNullOrEmpty(searchTerm))
-            {
-                books = books.Where(b => b.Name.Contains(searchTerm) || b.Type.Contains(searchTerm));
-            }
 
             if (!string.IsNullOrEmpty(filterBy) && !string.IsNullOrEmpty(filterValue))
             {
                 books = filterBy switch
                 {
-                    "Type" => books.Where(b => b.Type.Contains(filterValue)),
                     "Author" => books.Where(b => b.Author.Name.Contains(filterValue)),
                     "Section" => books.Where(b => b.Section.ToString().Contains(filterValue)),
                     "Status" => books.Where(b => b.Status.ToString().Contains(filterValue)),
@@ -152,6 +159,36 @@ namespace CulturalCenter.Application.Controllers
 
             return View("Index", books.ToList());
         }
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AddManualBook()
+        {
+            try
+            {
+                // إنشاء كتاب جديد وإضافة بيانات يدوية
+                var book = new Book
+                {
+                    Name = "Introduction to AI",
+                    AuthorId = 1, // افتراض أن المؤلف موجود بالفعل
+                    DateOfPublication = new DateTime(2023, 10, 20),
+                    Price = 99.99,
+                    Section = Domain.Enum.BookSection.Science,
+                    Status = Domain.Enum.BookStatus.Available,
+                    FilePath = "BooksFiles/IntroductionToAI.pdf"
+                };
+                // إضافة الكتاب الجديد لقاعدة البيانات
+                await _bookRepository.AddAsync(book);
 
+                // عرض رسالة نجاح
+                TempData["SuccessMessage"] = "Book has been added manually!";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error adding book manually.");
+                ModelState.AddModelError("", "Error adding book manually.");
+                return View("Error"); // عرض صفحة خطأ أو إعادة التوجيه إلى صفحة أخرى
+            }
+        }
     }
 }
+    

@@ -1,0 +1,27 @@
+﻿@model Domain.Models.Book
+
+<div class="container mt-5">
+    <h2>Delete Book</h2>
+
+    <div class="alert alert-warning">
+        <strong>Are you sure you want to delete this book?</strong>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">@Model.Name</h4>
+  
+            <p class="card-text"><strong>Date of Publication:</strong> @Model.DateOfPublication.ToString("MMMM dd, yyyy")</p>
+            <p class="card-text"><strong>Price:</strong> $@Model.Price.ToString("F2")</p>
+            <p class="card-text"><strong>Section:</strong> @Model.Section.ToString()</p>
+            <p class="card-text"><strong>Status:</strong> @Model.Status.ToString()</p>
+            <p class="card-text"><strong>Author:</strong> @Model.Author?.Name ?? "Unknown"</p>
+        </div>
+    </div>
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger mt-3">Delete</button>
+        <a asp-action="Index" class="btn btn-secondary mt-3">Cancel</a>
+    </form>
+</div>

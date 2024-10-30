@@ -27,18 +27,9 @@
                 <td>@exhibition.Name</td>
                 <td>@exhibition.StartDate.ToString("dd/MM/yyyy")</td>
                 <td>@exhibition.EndDate.ToString("dd/MM/yyyy")</td>
-                <td>
-                    @foreach (var book in exhibition.books)
-                    {
-                        <p>@book.Name</p>
-                    }
-                </td>
-                <td>
-                    @foreach (var visitor in exhibition.visitors)
-                    {
-                        <p>@visitor.Name</p>
-                    }
-                </td>
+              
+               
+               
                 <td>
                     <a href="@Url.Action("Edit", new { id = exhibition.Exhibitionid })" class="btn btn-primary">Edit</a>
                     <a href="@Url.Action("Delete", new { id = exhibition.Exhibitionid })" class="btn btn-danger">Delete</a>

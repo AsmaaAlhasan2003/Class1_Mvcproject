@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace ApplicationData.Repositories
@@ -12,34 +13,33 @@ namespace ApplicationData.Repositories
     public class BookRepository : IRepository<Book>
     {
         private readonly MnagementBdContext _context;
-
         public BookRepository(MnagementBdContext context)
         {
             _context = context;
         }
 
-
+        
         public async Task<List<Book>> GetAllAsync()
         {
             return await _context.Books
                 .Include(b => b.Author) 
-                .Include(b => b.Exhibition) 
                 .ToListAsync(); 
         }
 
         public async Task<Book> GetByIdAsync(int bookId)
         {
             return await _context.Books
-                .Include(b => b.Author) 
-                .Include(b => b.Exhibition) 
+                .Include(b => b.Author)
                 .FirstOrDefaultAsync(b => b.Id == bookId);
         }
 
-        public async Task AddAsync(Book book)
+        public async Task<Book> AddAsync(Book book)
         {
             
+
             await _context.Books.AddAsync(book);
-            SaveChangesAsync(); 
+           await SaveChangesAsync();
+            return book;
         }
 
         
@@ -61,10 +61,10 @@ namespace ApplicationData.Repositories
             existingBook.Status = book.Status;
             existingBook.DateOfPublication = book.DateOfPublication;
             existingBook.AuthorId = book.AuthorId;
-            existingBook.ExhibitionId = book.ExhibitionId;
+           
 
             _context.Update(existingBook);
-            SaveChangesAsync();
+           await SaveChangesAsync();
             Console.WriteLine("تم تحديث الكتاب بنجاح.");
         }
 
@@ -75,8 +75,8 @@ namespace ApplicationData.Repositories
             var book = await _context.Books.FindAsync(bookId); 
             if (book != null)
             {
-                book.Status = BookStatus.Removed; 
-                SaveChangesAsync(); 
+                _context.Books.Remove(book); 
+             await   SaveChangesAsync(); 
             }
         }
 
@@ -105,12 +105,7 @@ namespace ApplicationData.Repositories
             return $"الكتاب موجود: {book.Name}";
         }
 
-        
-
-        Task<Book> IRepository<Book>.AddAsync(Book entity)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         public async Task SaveChangesAsync()
         {
