@@ -33,9 +33,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                        
 
                         <!-- إظهار رابط Visitors إذا كان المستخدم Admin -->
                         @if (User.IsInRole("Admin"))
@@ -58,7 +56,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-controller="Visitors" asp-action="Create">Reservation</a>
                         </li>
-
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="About">About</a>
+                        </li>
                         <!-- إظهار رابط Admin Dashboard إذا كان المستخدم Admin -->
                         @if (User.IsInRole("Admin"))
 
@@ -120,13 +120,9 @@
         }
     </div>
 
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted" >
+    
+    @RenderBody()
+    <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2024 - CulturalCenter.Application - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>

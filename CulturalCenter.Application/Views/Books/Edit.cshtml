@@ -1,0 +1,109 @@
+﻿@model Domain.Models.Book
+@{
+    ViewData["Title"] = "Edit Book";
+}
+<link rel="stylesheet" href="~/css/index.css" asp-append-version="true" />
+
+<h1 class="text-center">Edit Book</h1>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+
+            <!-- Book Name -->
+            <div class="form-floating mb-3">
+                <input asp-for="Name" class="form-control" placeholder="Enter book name" />
+                <label asp-for="Name">Book Name</label>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <!-- Author Dropdown -->
+            <div class="form-floating mb-3">
+                <select asp-for="AuthorId" class="form-select" asp-items="ViewBag.Authors"></select>
+                <label asp-for="AuthorId">Author</label>
+                <span asp-validation-for="AuthorId" class="text-danger"></span>
+            </div>
+
+            <!-- Section -->
+            <div class="form-floating mb-3">
+                <select asp-for="Section" class="form-control">
+                    <option value="1">Fiction</option>
+                    <option value="2">Drama</option>
+                    <option value="3">Science</option>
+                    <option value="4">History</option>
+                    <option value="5"> Religios</option>
+                </select>
+                <label asp-for="Section">Section</label>
+                <span asp-validation-for="Section" class="text-danger"></span>
+            </div>
+
+            <!-- Status -->
+            <div class="form-floating mb-3">
+                <select asp-for="Status" class="form-select">
+                    @foreach (var status in Enum.GetValues(typeof(Domain.Enum.BookStatus)))
+                    {
+                        <option value="@status">@status</option>
+                    }
+                </select>
+                <label asp-for="Status">Status</label>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+
+            <!-- Price -->
+            <div class="form-floating mb-3">
+                <input asp-for="Price" class="form-control" placeholder="Enter price" />
+                <label asp-for="Price">Price</label>
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+
+            <!-- Date of Publication -->
+            <div class="form-floating mb-3">
+                <input asp-for="DateOfPublication" class="form-control" placeholder="Enter publication date" />
+                <label asp-for="DateOfPublication">Date of Publication</label>
+                <span asp-validation-for="DateOfPublication" class="text-danger"></span>
+            </div>
+
+            <!-- File Upload -->
+            <div class="mb-3">
+                <label class="form-label">Upload new file (optional)</label>
+                <input type="file" class="form-control" name="file" />
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary w-100">Update Book</button>
+        </form>
+    </div>
+</div><br /><br /><br /><br />
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: Arial, sans-serif;
+    }
+    h1 {
+        color: #4A7A9E;
+        margin-bottom: 30px;
+    }
+    .form-control, .form-select {
+        border-radius: 10px;
+        border: 2px solid #e0e0e0;
+    }
+    .form-control:focus, .form-select:focus {
+        border-color: #4A7A9E;
+        box-shadow: 0 0 5px rgba(74, 122, 158, 0.5);
+    }
+    .btn-primary {
+        background-color: #4A7A9E;
+        border-color: #4A7A9E;
+        transition: background-color 0.3s ease;
+    }
+    .btn-primary:hover {
+        background-color: #3a5c7a;
+    }
+</style>

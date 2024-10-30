@@ -1,7 +1,7 @@
 ﻿@using CulturalCenter.Application.Areas.Identity.Pages.Account
 @using CulturalCenter.Application.Areas.Identity.Data
-
 @using Microsoft.AspNetCore.Identity
+@using System.Linq 
 @inject SignInManager<CulturalCenterApplicationUser> SignInManager
 @inject UserManager<CulturalCenterApplicationUser> UserManager
 
@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="~/css/index.css" asp-append-version="true" />
 
 <div class="container my-5">
+    <!-- Section: Welcome -->
     <section class="mb-5">
         <div class="row align-items-center">
             <div class="col-md-6">
@@ -24,57 +25,65 @@
         </div>
     </section>
 
- 
+    <!-- Section: Available Books -->
     <section class="mb-5">
         <h2 class="mb-4 text-center">Available Books</h2>
         <div class="row">
+            <!-- Display first three books -->
             @foreach (var book in Model.Books)
             {
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">
-                        <img src="~/images/book2.jpg" class="card-img-top" alt="@book.Name">
+                        <img src="/images/books/book@(book.Id.ToString()).jpg" alt="Book Image"
+                             onerror="this.onerror=null;this.src='/images/default-book.jpg';" / style="width: 100%; 
+        height: 300px;">
                         <div class="card-body">
                             <h5 class="card-title">@book.Name</h5>
-                           
                             <p><strong>Publication Date:</strong> @book.DateOfPublication.ToString("yyyy-MM-dd")</p>
                             <p><strong>Price:</strong> @book.Price.ToString("C")</p>
-                            <a href="#" class="btn btn-primary">Learn More</a>
+                        <a href="@Url.Action("Details", new { id =book.Id })" class="btn btn-primary">More Info</a>
                         </div>
                     </div>
                 </div>
             }
         </div>
+        <!-- View More Books Button -->
+        <div class="text-center">
+            <a href="@Url.Action("Index", "Books")" class="btn btn-primary mt-3">View More Books</a>
+        </div>
     </section>
 
-        <section class="mb-5">
-            <h2 class="mb-4 text-center">Available Exhibitions</h2>
-            <div class="row">
-                @foreach (var exhibition in Model.Exhibitions)
-
-                {
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100 shadow-sm">
-                            <img src="~/images/معرض2.jpg" class="card-img-top" alt="@exhibition.Name">
-                            <div class="card-body">
-                                <h5 class="card-title text-center">@exhibition.Name</h5>
-                                <p class="card-text"><strong>Description:</strong> @exhibition.Discraption</p>
-                                <p class="card-text"><strong>Start Date:</strong> @exhibition.StartDate.ToString("yyyy-MM-dd")</p>
-                                <p class="card-text"><strong>End Date:</strong> @exhibition.EndDate.ToString("yyyy-MM-dd")</p>
-                                <a href="@Url.Action("Details", "Exhibitions", new { id = exhibition.Exhibitionid })" class="btn btn-primary d-block mt-3">Learn More</a>
-                            </div>
-                            <div class="card-footer text-center">
-                                <small class="text-muted">Exhibition from @exhibition.StartDate.ToString("MMMM dd, yyyy") to @exhibition.EndDate.ToString("MMMM dd, yyyy")</small>
-                            </div>
+    <!-- Section: Available Exhibitions -->
+    <section class="mb-5">
+        <h2 class="mb-4 text-center">Available Exhibitions</h2>
+        <div class="row">
+            <!-- Display first three exhibitions -->
+            @foreach (var exhibition in Model.Exhibitions)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <img src="~/images/معرض2.jpg" class="card-img-top" alt="@exhibition.Name">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">@exhibition.Name</h5>
+                            <p class="card-text"><strong>Description:</strong> @exhibition.Discraption</p>
+                            <p class="card-text"><strong>Start Date:</strong> @exhibition.StartDate.ToString("yyyy-MM-dd")</p>
+                            <p class="card-text"><strong>End Date:</strong> @exhibition.EndDate.ToString("yyyy-MM-dd")</p>
+                            <a href="@Url.Action("Details", "Exhibitions", new { id = exhibition.Exhibitionid })" class="btn btn-primary d-block mt-3">Learn More</a>
+                        </div>
+                        <div class="card-footer text-center">
+                            <small class="text-muted">Exhibition from @exhibition.StartDate.ToString("MMMM dd, yyyy") to @exhibition.EndDate.ToString("MMMM dd, yyyy")</small>
                         </div>
                     </div>
-                }
-            </div>
-        </section>
+                </div>
+            }
+        </div>
+        <!-- View More Exhibitions Button -->
+        <div class="text-center">
+            <a href="@Url.Action("Index", "Exhibitions")" class="btn btn-primary mt-3">View More Exhibitions</a>
+        </div>
+    </section>
 
-
-
-
-    <!-- Section 4: About the Library -->
+    <!-- Section: About the Library -->
     <section class="mb-5">
         <div class="row align-items-center">
             <div class="col-md-6">
@@ -88,21 +97,3 @@
     </section>
 </div>
 
-<!-- Display welcome message based on user's role -->
-@if (User.IsInRole("Admin"))
-
-{
-    <div class="alert alert-info text-center">
-        <h4>Welcome, Admin!</h4>
-        <p>You have administrative privileges. <a href="/Admin/Dashboard">Go to Admin Dashboard</a></p>
-    </div>
-}
-
-else if (User.IsInRole("Member"))
-
-{
-    <div class="alert alert-success text-center">
-        <h4>Welcome, Member!</h4>
-        <p>Enjoy the latest books and events curated just for you.</p>
-    </div>
-}

@@ -1,0 +1,34 @@
+﻿@model Domain.Models.Author
+
+@{
+    ViewData["Title"] = "Edit Author";
+}
+
+<h2>Edit Author</h2>
+
+<div class="container">
+    <form asp-action="Edit" method="post">
+        <input type="hidden" asp-for="AuthorId" />
+
+        <div class="form-group">
+            <label asp-for="Name" class="control-label">Author Name</label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Country" class="control-label">Country</label>
+            <textarea asp-for="Country" class="form-control"></textarea>
+            <span asp-validation-for="Country" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="BirthDay" class="control-label">Date of Birth</label>
+            <input asp-for="BirthDay" class="form-control" type="date" />
+            <span asp-validation-for="BirthDay" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

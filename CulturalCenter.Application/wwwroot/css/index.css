@@ -55,6 +55,8 @@ body {
     position: absolute;
     width: 100%;
     bottom: 0;
+    height:100px;
+    margin-top:50px;
 }
 
     .footer a {

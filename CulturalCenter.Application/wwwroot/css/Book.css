@@ -9,7 +9,7 @@
 
 .container {
     max-width: 1200px;
-    margin: 50px auto;
+    margin: 10px;
     padding: 0 20px;
 }
 
@@ -23,6 +23,7 @@ h2 {
 
 .book-grid {
     display: grid;
+    margin-bottom: 50px;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* شبكة لعرض الكتب */
     gap: 20px; /* مسافة بين الكاردات */
 }
@@ -30,11 +31,13 @@ h2 {
 .book-item {
     background-color: #fff;
     border-radius: 8px;
+  
+    margin: 4px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* ظل خفيف للكارد */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     padding: 20px;
     text-align: center;
-    border: 1px solid #eaeaea; /* حدود خفيفة */
+    border: 1px solid #4A7A9E; /* حدود خفيفة */
 }
 
     .book-item:hover {
@@ -42,12 +45,14 @@ h2 {
         box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* زيادة الظل */
     }
 
+    /* تعديل حجم الصورة وضمان التناسق */
     .book-item img {
-        height: 200px;
-        width: 100%;
-        object-fit: cover; /* ضمان أن الصورة تظهر بشكل متناسق */
+        width: 100%; /* عرض الصورة يملأ الكارد */
+        height: 300px; /* ارتفاع موحد للصورة */
+        object-fit: cover; /* ضمان أن الصورة لا تتشوه */
         margin-bottom: 15px;
         border-radius: 4px;
+        border-color: #FAF4EB;
     }
 
     .book-item h5 {
@@ -77,19 +82,6 @@ h2 {
         .book-item .btn:hover {
             background-color: #3a5c7a;
         }
-.book-item {
-    border: 1px solid #ddd;
-    padding: 20px;
-    margin-bottom: 20px;
-    text-align: center;
-    border-radius: 10px;
-}
-
-    .book-item img {
-        max-width: 100%;
-        height: auto;
-        margin-bottom: 10px;
-    }
 
 .btn-group {
     display: flex;
