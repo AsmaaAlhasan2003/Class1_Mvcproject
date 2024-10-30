@@ -1,68 +1,82 @@
 ﻿@model List<Domain.Models.Book>
-@using System.Linq
+@using System.Linq  <!-- تأكد من إضافة هذا السطر -->
+
+<!-- روابط ملفات CSS -->
 <link rel="stylesheet" href="~/css/Book.css" asp-append-version="true" />
 <link rel="stylesheet" href="~/css/index.css" asp-append-version="true" />
 
 <div class="container my-5">
+    <!-- عنوان الصفحة -->
     <h2 class="text-center mb-5">Books Collection</h2>
 
-   <form asp-action="Search" method="get" class="mb-4">
-    <div class="input-group mb-2">
-        <!-- حقل البحث عن الاسم -->
-        <input type="text" id="searchTerm" name="searchTerm" class="form-control" placeholder="Search by name ..." autocomplete="off" />
-    </div>
-
-    <div class="input-group mb-2">
-        
-        <!-- القيمة التي سيتم فلترتها -->
-        <input type="text" name="filterValue" class="form-control" placeholder="Filter value" />
-   
-        <!-- الفلترة حسب النوع -->
-        <select name="filterBy" class="form-select">
-            <option value="">Select Filter</option>
-            <option value="Author">Author</option>
-            <option value="Section">Section</option>
-            <option value="Status">Status</option>
-        </select>
-
-
+    <!-- نموذج البحث والفلترة -->
+    <form asp-action="Search" method="get" class="mb-4">
+        <div class="input-group mb-2">
+            <!-- حقل البحث عن الاسم -->
+            <input type="text" id="searchTerm" name="searchTerm" class="form-control" placeholder="Search by name ..." autocomplete="off" />
         </div>
-    <button class="btn btn-primary" type="submit">Search</button>
-</form>
 
+        <div class="input-group mb-2">
+            <!-- القيمة التي سيتم فلترتها -->
+            <input type="text" name="filterValue" class="form-control" placeholder="Filter value" />
 
+            <!-- الفلترة حسب النوع -->
+            <select name="filterBy" class="form-select">
+                <option value="">Select Filter</option>
+                <option value="Author">Author</option>
+                <option value="Section">Section</option>
+                <option value="Status">Status</option>
+            </select>
+        </div>
+
+        <!-- زر البحث -->
+        <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+
+    <!-- عرض الكتب في شبكة -->
     <div class="book-grid">
-        @if (Model != null && Model.Any())
+        @if (Model != null && Model.Any()) 
         {
             @foreach (var book in Model)
             {
                 <div class="book-item">
-                    <img src="/images/book1.jpg" alt="Book Image" />
+                    <!-- صورة الكتاب مع تحديد الامتداد -->
+                    <img src="/images/books/book@(book.Id.ToString()).jpg" alt="Book Image"
+                         onerror="this.onerror=null;this.src='/images/default-book.jpg';" />
+
+                    <!-- تفاصيل الكتاب -->
                     <h5>@book.Name</h5>
-                   
                     <p><strong>Date of Publication:</strong> @book.DateOfPublication.ToString("MMMM dd, yyyy")</p>
                     <p><strong>Price:</strong> $@book.Price.ToString("F2")</p>
                     <p><strong>Section:</strong> @book.Section</p>
                     <p><strong>Status:</strong> @book.Status.ToString()</p>
                     <p><strong>Author:</strong> @book.Author.Name</p>
 
+                    <!-- الأزرار -->
                     <div class="btn-group mt-3">
-                        <a href="@Url.Action("Create", "Loan", new { newbook = book })" class="btn btn-primary">Browwer</a>
-                        <a href="/api/BooksApi/download/@book.Id" class="btn btn-success ms-2">Download</a> 
+                        <a href="@Url.Action("Create", "Loan", new { newbook = book })" class="btn btn-primary">Borrow</a>
+                        <a href="/api/BooksApi/download/@book.Id" class="btn btn-success ms-2">Download</a>
+@*                        <a href="@Url.Action("Details", new { id =book.Id })" class="btn btn-primary">More Info</a>
+ *@ 
                     </div>
                 </div>
             }
         }
         else
         {
+            <!-- في حال لم يتم العثور على أي نتائج -->
             <p class="text-center text-muted">No results found.</p>
         }
-    </div><br /><br /><br /><br />
+    </div>
+</div>
 
+<!-- إضافة مسافات أسفل الصفحة -->
+<br />
+<br />
+<br />
+<br />
 
-   
-       
-
+<!-- سكريبت لجلب الاقتراحات -->
 <script>
     function showSuggestions(query) {
         var suggestionsList = document.getElementById('suggestionsList');

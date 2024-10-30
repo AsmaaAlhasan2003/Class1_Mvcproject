@@ -34,12 +34,14 @@
             {
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">
-                        <img src="~/images/book2.jpg" class="card-img-top" alt="@book.Name">
+                        <img src="/images/books/book@(book.Id.ToString()).jpg" alt="Book Image"
+                             onerror="this.onerror=null;this.src='/images/default-book.jpg';" / style="width: 100%; 
+        height: 300px;">
                         <div class="card-body">
                             <h5 class="card-title">@book.Name</h5>
                             <p><strong>Publication Date:</strong> @book.DateOfPublication.ToString("yyyy-MM-dd")</p>
                             <p><strong>Price:</strong> @book.Price.ToString("C")</p>
-                            <a href="#" class="btn btn-primary">Learn More</a>
+                        <a href="@Url.Action("Details", new { id =book.Id })" class="btn btn-primary">More Info</a>
                         </div>
                     </div>
                 </div>

@@ -38,7 +38,16 @@ namespace CulturalCenter.Application.Controllers
             var books = await _bookRepository.GetAllAsync();
             return View(books);
         }
-
+        [AllowAnonymous]
+        public async Task<IActionResult> Details(int id)
+        {
+            var book = await _bookRepository.GetByIdAsync(id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+            return View(book);
+        }
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create()
         {
@@ -111,6 +120,66 @@ namespace CulturalCenter.Application.Controllers
 
             return View(book);
         }
+        [Authorize(Roles = "Admin")]
+public async Task<IActionResult> Edit(int id)
+{
+    var book = await _bookRepository.GetByIdAsync(id);
+    if (book == null)
+    {
+        return NotFound();
+    }
+
+    var authors = await _authorRepository.GetAllAsync();
+    ViewBag.Authors = new SelectList(authors, "AuthorId", "Name");
+
+    return View(book);
+}
+
+[HttpPost]
+[Authorize(Roles = "Admin")]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Edit(int id, Book book, IFormFile file)
+{
+    if (id != book.Id)
+    {
+        return NotFound();
+    }
+
+    if (ModelState.IsValid)
+    {
+        try
+        {
+            if (file != null && file.Length > 0)
+            {
+                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "BooksFiles");
+                Directory.CreateDirectory(uploadsFolder); 
+
+                var uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                book.FilePath = Path.Combine("BooksFiles", uniqueFileName);
+            }
+
+            await _bookRepository.UpdateAsync(book);
+            TempData["SuccessMessage"] = "Book has been updated successfully!";
+            return RedirectToAction(nameof(Index));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error while updating book.");
+            ModelState.AddModelError("", "Error updating book. Please try again.");
+        }
+    }
+
+    var authors = await _authorRepository.GetAllAsync();
+    ViewBag.Authors = new SelectList(authors, "AuthorId", "Name");
+    return View(book);
+}
 
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
