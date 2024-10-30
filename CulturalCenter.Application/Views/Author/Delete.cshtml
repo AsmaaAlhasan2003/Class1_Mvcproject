@@ -1,0 +1,28 @@
+﻿@model Domain.Models.Author
+
+@{
+    ViewData["Title"] = "Delete Author";
+}
+
+<h2>Delete Author</h2>
+
+<div class="container">
+    <h3>Are you sure you want to delete this author?</h3>
+
+    <div class="form-group">
+        <strong>Name:</strong> @Model.Name
+    </div>
+    <div class="form-group">
+        <strong>Country:</strong> @Model.Country
+    </div>
+    <div class="form-group">
+        <strong>Date of Birth:</strong> @Model.BirthDay.ToString("yyyy-MM-dd")
+    </div>
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="AuthorId" />
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+

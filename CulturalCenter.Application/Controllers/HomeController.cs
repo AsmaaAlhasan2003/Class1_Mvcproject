@@ -28,7 +28,7 @@ namespace CulturalCenter.Application.Controllers
         {
             var books = await _bookRepository.GetAllAsync();
             var exhibitions =await _exhibitionrepository.GetAllAsync();
-            return View(new { Books = books,Exhibitions= exhibitions });
+            return View(new { Books = books.Take(3).ToList(), Exhibitions= exhibitions.Take(3).ToList() });
         }
 
         // السماح للجميع بالوصول إلى صفحة تسجيل الدخول
@@ -40,7 +40,7 @@ namespace CulturalCenter.Application.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult Privacy()
+        public IActionResult About()
         {
             return View();
         }

@@ -30,9 +30,10 @@ namespace CulturalCenter.Application.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Loan loan)
         {
-            if (ModelState.IsValid)
-            {
+            
                 var book = await _bookRepository.GetByIdAsync(loan.BookId);
+                ViewBag.Book = await _bookRepository.GetByIdAsync(loan.BookId);
+
                 if (book == null)
                 {
                     ModelState.AddModelError("", "Book not found.");
@@ -47,9 +48,8 @@ namespace CulturalCenter.Application.Controllers
 
                 TempData["SuccessMessage"] = "Loan has been added successfully!";
                 return RedirectToAction(nameof(Index));
-            }
+            
 
-            ViewBag.Book = await _bookRepository.GetByIdAsync(loan.BookId);
 
             return View(loan);
         }

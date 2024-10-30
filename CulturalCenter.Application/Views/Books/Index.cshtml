@@ -6,17 +6,30 @@
 <div class="container my-5">
     <h2 class="text-center mb-5">Books Collection</h2>
 
-    <form asp-action="Search" method="get" class="mb-4">
-        <div class="input-group">
-            <input type="text" id="searchTerm" name="searchTerm" class="form-control" placeholder="Search by name or type..." onkeyup="showSuggestions(this.value)" autocomplete="off" />
-            <button class="btn btn-primary" type="submit">Search</button>
-        </div>
+   <form asp-action="Search" method="get" class="mb-4">
+    <div class="input-group mb-2">
+        <!-- حقل البحث عن الاسم -->
+        <input type="text" id="searchTerm" name="searchTerm" class="form-control" placeholder="Search by name ..." autocomplete="off" />
+    </div>
 
-        <div class="dropdown mt-2 w-100">
-            <ul id="suggestionsList" class="dropdown-menu w-100" style="display: none;">
-            </ul>
+    <div class="input-group mb-2">
+        
+        <!-- القيمة التي سيتم فلترتها -->
+        <input type="text" name="filterValue" class="form-control" placeholder="Filter value" />
+   
+        <!-- الفلترة حسب النوع -->
+        <select name="filterBy" class="form-select">
+            <option value="">Select Filter</option>
+            <option value="Author">Author</option>
+            <option value="Section">Section</option>
+            <option value="Status">Status</option>
+        </select>
+
+
         </div>
-    </form>
+    <button class="btn btn-primary" type="submit">Search</button>
+</form>
+
 
     <div class="book-grid">
         @if (Model != null && Model.Any())
@@ -31,10 +44,10 @@
                     <p><strong>Price:</strong> $@book.Price.ToString("F2")</p>
                     <p><strong>Section:</strong> @book.Section</p>
                     <p><strong>Status:</strong> @book.Status.ToString()</p>
-                    <p><strong>Author:</strong> @book.Author</p>
+                    <p><strong>Author:</strong> @book.Author.Name</p>
 
                     <div class="btn-group mt-3">
-                        <a href="@Url.Action("Create", "Loan", new { bookId = book.Id })" class="btn btn-primary">Browwer</a>
+                        <a href="@Url.Action("Create", "Loan", new { newbook = book })" class="btn btn-primary">Browwer</a>
                         <a href="/api/BooksApi/download/@book.Id" class="btn btn-success ms-2">Download</a> 
                     </div>
                 </div>
@@ -44,9 +57,11 @@
         {
             <p class="text-center text-muted">No results found.</p>
         }
-    </div>
-   
+    </div><br /><br /><br /><br />
 
+
+   
+       
 
 <script>
     function showSuggestions(query) {
