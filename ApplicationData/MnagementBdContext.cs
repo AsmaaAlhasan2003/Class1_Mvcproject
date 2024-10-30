@@ -22,7 +22,7 @@ namespace ApplicationData
         //    optionsBuilder.UseSqlServer(connectionString);
         //    base.OnConfiguring(optionsBuilder);
         //}
-        public static void SeedingInitialDbValues(MnagementBdContext context)
+        /*public static void SeedingInitialDbValues(MnagementBdContext context)
         {
             context.Database.EnsureDeleted();
             context.Database.Migrate();
@@ -38,7 +38,7 @@ namespace ApplicationData
                 FilePath = "BooksFiles/IntroductionToAI.pdf"
             });
         }
-
+        */
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

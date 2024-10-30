@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApplicationData.Migrations
 {
     [DbContext(typeof(MnagementBdContext))]
-    [Migration("20241029193724_updated3")]
-    partial class updated3
+    [Migration("20241029204702_edit in book")]
+    partial class editinbook
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -94,6 +94,9 @@ namespace ApplicationData.Migrations
 
                     b.Property<DateTime>("DateOfPublication")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("FilePath")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()

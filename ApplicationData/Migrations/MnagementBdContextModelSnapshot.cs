@@ -92,6 +92,9 @@ namespace ApplicationData.Migrations
                     b.Property<DateTime>("DateOfPublication")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("FilePath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

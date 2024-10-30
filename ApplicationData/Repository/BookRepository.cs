@@ -99,10 +99,10 @@ namespace ApplicationData.Repositories
 
             if (book == null)
             {
-                return "الكتاب غير موجود";
+                return "The Book is not found";
             }
 
-            return $"الكتاب موجود: {book.Name}";
+            return $"The book is found: {book.Name}";
         }
 
        

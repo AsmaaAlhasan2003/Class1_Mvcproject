@@ -1,5 +1,6 @@
 ﻿using ApplicationData.Repository;
 using Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -11,7 +12,7 @@ public class VisitorsController : Controller
     {
         _visitorRepository = visitorRepository;
     }
-
+    [Authorize(Roles ="Admin")]
     public async Task<IActionResult> Index()
     {
         var visitors = await _visitorRepository.GetAllAsync();
@@ -19,6 +20,7 @@ public class VisitorsController : Controller
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public IActionResult Create()
     {
         return View();

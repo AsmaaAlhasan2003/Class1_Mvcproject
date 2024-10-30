@@ -5,7 +5,7 @@
 namespace ApplicationData.Migrations
 {
     /// <inheritdoc />
-    public partial class updatedinbook : Migration
+    public partial class UpdatedBooksTable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
