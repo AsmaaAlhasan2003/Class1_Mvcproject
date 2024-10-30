@@ -9,7 +9,7 @@
         @if (ViewBag.Book != null)
         {
                 <input type="hidden" asp-for="BookId" value="@ViewBag.Book.Id" />
-                <p>@ViewBag.Book.Name (@ViewBag.Book.Type)</p>
+                <p>@ViewBag.Book.Name (@ViewBag.Book)</p>
         }
         else
         {

@@ -1,6 +1,8 @@
 ﻿@model List<Domain.Models.Book>
 @using System.Linq
 <link rel="stylesheet" href="~/css/Book.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/index.css" asp-append-version="true" />
+
 <div class="container my-5">
     <h2 class="text-center mb-5">Books Collection</h2>
 
@@ -29,11 +31,11 @@
                     <p><strong>Price:</strong> $@book.Price.ToString("F2")</p>
                     <p><strong>Section:</strong> @book.Section</p>
                     <p><strong>Status:</strong> @book.Status.ToString()</p>
-                    <p><strong>Author:</strong> @book.Author?.Name ?? "Unknown"</p>
+                    <p><strong>Author:</strong> @book.Author</p>
 
                     <div class="btn-group mt-3">
-                        <a href="@Url.Action("Create", "Loan", new { bookId = book.Id })" class="btn btn-primary">استعارة</a>
-                        <a href="/api/BooksApi/download/@book.Id" class="btn btn-success ms-2">تنزيل الكتاب</a> <!-- زر تنزيل الكتاب -->
+                        <a href="@Url.Action("Create", "Loan", new { bookId = book.Id })" class="btn btn-primary">Browwer</a>
+                        <a href="/api/BooksApi/download/@book.Id" class="btn btn-success ms-2">Download</a> 
                     </div>
                 </div>
             }
@@ -45,23 +47,6 @@
     </div>
    
 
-<div class="container my-5">
-    <h2>Books Collection</h2>
-
-    <div class="book-grid">
-        @foreach (var book in Model)
-        {
-            <div class="book-item">
-                <h5>@book.Name</h5>
-              
-                <p><strong>Price:</strong> $@book.Price</p>
-                <a asp-action="Delete" asp-route-id="@book.Id" class="btn btn-danger">Delete</a>
-            </div>
-        }
-    </div>
-</div>
-
-</div>
 
 <script>
     function showSuggestions(query) {

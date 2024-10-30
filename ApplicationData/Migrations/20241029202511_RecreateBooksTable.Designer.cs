@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApplicationData.Migrations
 {
     [DbContext(typeof(MnagementBdContext))]
-    [Migration("20241027151934_edit class book")]
-    partial class editclassbook
+    [Migration("20241029202511_RecreateBooksTable")]
+    partial class RecreateBooksTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -95,13 +95,6 @@ namespace ApplicationData.Migrations
                     b.Property<DateTime>("DateOfPublication")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ExhibitionId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("FilePath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -115,15 +108,9 @@ namespace ApplicationData.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
-
-                    b.HasIndex("ExhibitionId");
 
                     b.ToTable("Books");
                 });
@@ -135,6 +122,10 @@ namespace ApplicationData.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Exhibitionid"));
+
+                    b.Property<string>("Discraption")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
@@ -168,14 +159,9 @@ namespace ApplicationData.Migrations
                     b.Property<DateTime?>("ReturnDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("VisitorId")
-                        .HasColumnType("int");
-
                     b.HasKey("LoanId");
 
                     b.HasIndex("BookId");
-
-                    b.HasIndex("VisitorId");
 
                     b.ToTable("Loans");
                 });
@@ -248,9 +234,6 @@ namespace ApplicationData.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ExhibitionId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -259,8 +242,6 @@ namespace ApplicationData.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("VisitorId");
-
-                    b.HasIndex("ExhibitionId");
 
                     b.ToTable("Visitors");
                 });
@@ -287,14 +268,7 @@ namespace ApplicationData.Migrations
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.HasOne("Domain.Models.Exhibition", "Exhibition")
-                        .WithMany("books")
-                        .HasForeignKey("ExhibitionId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
                     b.Navigation("Author");
-
-                    b.Navigation("Exhibition");
                 });
 
             modelBuilder.Entity("Domain.Models.Loan", b =>
@@ -305,15 +279,7 @@ namespace ApplicationData.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Domain.Models.Visitor", "Visitor")
-                        .WithMany("Loans")
-                        .HasForeignKey("VisitorId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.Navigation("Book");
-
-                    b.Navigation("Visitor");
                 });
 
             modelBuilder.Entity("Domain.Models.Notification", b =>
@@ -338,16 +304,6 @@ namespace ApplicationData.Migrations
                     b.Navigation("Visitor");
                 });
 
-            modelBuilder.Entity("Domain.Models.Visitor", b =>
-                {
-                    b.HasOne("Domain.Models.Exhibition", "exhibition")
-                        .WithMany("visitors")
-                        .HasForeignKey("ExhibitionId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.Navigation("exhibition");
-                });
-
             modelBuilder.Entity("Domain.Models.Author", b =>
                 {
                     b.Navigation("Books");
@@ -358,17 +314,8 @@ namespace ApplicationData.Migrations
                     b.Navigation("Loans");
                 });
 
-            modelBuilder.Entity("Domain.Models.Exhibition", b =>
-                {
-                    b.Navigation("books");
-
-                    b.Navigation("visitors");
-                });
-
             modelBuilder.Entity("Domain.Models.Visitor", b =>
                 {
-                    b.Navigation("Loans");
-
                     b.Navigation("Notifications");
 
                     b.Navigation("Reservations");

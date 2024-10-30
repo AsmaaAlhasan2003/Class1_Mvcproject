@@ -56,7 +56,7 @@ namespace CulturalCenter.Application.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Book book, IFormFile file)
         {
-            var testBook = new Book
+          /*  var testBook = new Book
             {
                 Name = "Test Book",
                 AuthorId = 1,
@@ -67,7 +67,7 @@ namespace CulturalCenter.Application.Controllers
             };
 
             await _bookRepository.AddAsync(testBook);
-            await _bookRepository.SaveChangesAsync();
+            await _bookRepository.SaveChangesAsync();*/
 
             if (ModelState.IsValid)
             {
@@ -140,7 +140,7 @@ namespace CulturalCenter.Application.Controllers
             TempData["SuccessMessage"] = "Book has been deleted successfully!";
             return RedirectToAction(nameof(Index));
         }
-
+        [HttpGet]
         public async Task<IActionResult> Search(string searchTerm, string filterBy, string filterValue)
         {
             var books = (await _bookRepository.GetAllAsync()).AsQueryable();

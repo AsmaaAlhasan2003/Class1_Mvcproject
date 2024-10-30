@@ -21,7 +21,7 @@ namespace Domain.Models
 
         // قائمة الاستعارات للكتاب
          public List<Loan>? Loans { get; set; } = new List<Loan>();
-        [NotMapped]
+        
         public string? FilePath { get; set; }
         
     }

@@ -35,7 +35,7 @@
                         <img src="~/images/book2.jpg" class="card-img-top" alt="@book.Name">
                         <div class="card-body">
                             <h5 class="card-title">@book.Name</h5>
-                            <p class="card-text">Type: @book.Type</p>
+                           
                             <p><strong>Publication Date:</strong> @book.DateOfPublication.ToString("yyyy-MM-dd")</p>
                             <p><strong>Price:</strong> @book.Price.ToString("C")</p>
                             <a href="#" class="btn btn-primary">Learn More</a>
@@ -46,26 +46,32 @@
         </div>
     </section>
 
-<section class="mb-5">
-    <h2 class="mb-4 text-center">Available Exhibitions</h2>
-    <div class="row">
-            @foreach (var exhibition in Model.Exhibitions)
+        <section class="mb-5">
+            <h2 class="mb-4 text-center">Available Exhibitions</h2>
+            <div class="row">
+                @foreach (var exhibition in Model.Exhibitions)
 
-            {
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-                            <img src="~/images/librar.jpg" class="card-img-top" alt="@exhibition.Name">
-                        <div class="card-body">
-                            <h5 class="card-title">@exhibition.Name</h5>
-                            <p class="card-text">Start Date: @exhibition.StartDate.ToString("yyyy-MM-dd")</p>
-                            <p class="card-text">End Date: @exhibition.EndDate.ToString("yyyy-MM-dd")</p>
-                            <a href="@Url.Action("Details", "Exhibitions", new { id = exhibition.Exhibitionid })" class="btn btn-primary">Learn More</a>
+                {
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 shadow-sm">
+                            <img src="~/images/معرض2.jpg" class="card-img-top" alt="@exhibition.Name">
+                            <div class="card-body">
+                                <h5 class="card-title text-center">@exhibition.Name</h5>
+                                <p class="card-text"><strong>Description:</strong> @exhibition.Discraption</p>
+                                <p class="card-text"><strong>Start Date:</strong> @exhibition.StartDate.ToString("yyyy-MM-dd")</p>
+                                <p class="card-text"><strong>End Date:</strong> @exhibition.EndDate.ToString("yyyy-MM-dd")</p>
+                                <a href="@Url.Action("Details", "Exhibitions", new { id = exhibition.Exhibitionid })" class="btn btn-primary d-block mt-3">Learn More</a>
+                            </div>
+                            <div class="card-footer text-center">
+                                <small class="text-muted">Exhibition from @exhibition.StartDate.ToString("MMMM dd, yyyy") to @exhibition.EndDate.ToString("MMMM dd, yyyy")</small>
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
-    </div>
-</section>
+                }
+            </div>
+        </section>
+
+
 
 
     <!-- Section 4: About the Library -->

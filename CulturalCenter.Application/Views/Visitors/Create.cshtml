@@ -1,4 +1,6 @@
 ﻿@model Domain.Models.Visitor
+<link rel="stylesheet" href="~/css/index.css" asp-append-version="true" />
+
 <link rel="stylesheet" href="~/css/Visitor.css" asp-append-version="true" />
 
 <h1>Create New Visitor</h1>
@@ -23,26 +25,19 @@
     </div>
 
 
-    <!-- Reservations (Activities List) -->
     <div class="form-group">
         <label asp-for="Reservations" class="control-label">Reservations (Activities)</label>
         <select asp-for="Reservations" class="form-control" multiple>
-            <!-- هنا يمكن عرض قائمة الأنشطة المتاحة للحجز -->
-            @* يمكنك جلب قائمة الأنشطة من قاعدة البيانات *@
             <option value="1">Activity 1</option>
             <option value="2">Activity 2</option>
-            <!-- إلخ... -->
         </select>
     </div>
 
-    <!-- Notifications (List) -->
     <div class="form-group">
         <label asp-for="Notifications" class="control-label">Notifications</label>
         <select asp-for="Notifications" class="form-control" multiple>
-            <!-- هنا يمكنك عرض قائمة الإشعارات أو الرسائل المرسلة لهذا الزائر -->
             <option value="1">Notification 1</option>
             <option value="2">Notification 2</option>
-            <!-- إلخ... -->
         </select>
     </div>
 
